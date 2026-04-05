@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-SSH_CONFIG="$HOME/.ssh/config"
+SSH_CONFIG="~/.ssh/config"
 
 _ensure_ssh_config() {
-  mkdir -p "$HOME/.ssh"
+  mkdir -p "~/.ssh"
   touch "$SSH_CONFIG"
   chmod 600 "$SSH_CONFIG"
 }
