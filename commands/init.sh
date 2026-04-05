@@ -5,8 +5,8 @@ cmd_init() {
 
   git rev-parse --git-dir &>/dev/null || error "not inside a git repo. run 'git init' first."
 
-  local selected_alias
-  selected_alias=$(_pick_account_menu)
+  _pick_account_menu
+  local selected_alias="$PICKED_ALIAS"
 
   local selected_key
   selected_key=$(_get_account_key "$selected_alias")

@@ -36,19 +36,19 @@ _pick_account_menu() {
   count=$(_account_count)
   [ "$count" -eq 0 ] && error "no accounts saved yet. run ${BOLD}sshkey add-account${RESET} first."
 
-  echo -e "  pick an account:\n" >&2
+  echo -e "  pick an account:\n"
   local i=1
   local aliases=()
   while IFS='|' read -r alias username _ <&3; do
-    echo -e "  ${BOLD}[$i]${RESET} ${alias}  ${CYAN}(@${username})${RESET}" >&2
+    echo -e "  ${BOLD}[$i]${RESET} ${alias}  ${CYAN}(@${username})${RESET}"
     aliases+=("$alias")
     ((i++))
   done 3< "$ACCOUNTS_FILE"
 
-  echo "" >&2
-  read -rp "  enter number: " choice <&/dev/tty
+  echo ""
+  read -rp "  enter number: " choice
   local idx=$((choice - 1))
   [ "$idx" -lt 0 ] || [ "$idx" -ge "${#aliases[@]}" ] && error "invalid choice"
 
-  echo "${aliases[$idx]}"
+  PICKED_ALIAS="${aliases[$idx]}"
 }
