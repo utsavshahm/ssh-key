@@ -39,17 +39,16 @@ _pick_account_menu() {
   echo -e "  pick an account:\n"
   local i=1
   local aliases=()
-  while IFS='|' read -r alias username _; do
+  while IFS='|' read -r alias username _ <&3; do
     echo -e "  ${BOLD}[$i]${RESET} ${alias}  ${CYAN}(@${username})${RESET}"
     aliases+=("$alias")
     ((i++))
-  done < "$ACCOUNTS_FILE"
+  done 3< "$ACCOUNTS_FILE"
 
   echo ""
   read -rp "  enter number: " choice
   local idx=$((choice - 1))
   [ "$idx" -lt 0 ] || [ "$idx" -ge "${#aliases[@]}" ] && error "invalid choice"
 
-  # return selected alias via stdout
   echo "${aliases[$idx]}"
 }
