@@ -22,13 +22,13 @@ _add_key_to_agent() {
 
 _verify_github() {
   local alias="$1"
-  info "verifying connection to GitHub..."
+  info "verifying connection to GitHub..." >&2
   local result
   result=$(ssh -T "git@github-${alias}" 2>&1 || true)
   if echo "$result" | grep -q "successfully authenticated"; then
     local username
     username=$(echo "$result" | grep -oP "Hi \K[^!]+")
-    success "connected as ${BOLD}${username}${RESET}"
+    success "connected as ${BOLD}${username}${RESET}" >&2
     echo "$username"
     return 0
   else
