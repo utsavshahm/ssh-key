@@ -1,6 +1,6 @@
 import subprocess
 from pathlib import Path
-from lib.ui import info, success, warn, error, console
+from sshkey.lib.ui import info, success, warn, error, console
 
 SSH_CONFIG = Path.home() / ".ssh" / "config"
 

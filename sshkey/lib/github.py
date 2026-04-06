@@ -1,7 +1,7 @@
 import time
 import subprocess
 import requests
-from lib.ui import info, success, warn, error, console, divider, blank
+from sshkey.lib.ui import info, success, warn, error, console, divider, blank
 
 # Register a free OAuth app at github.com/settings/developers
 # Enable Device Flow, set homepage to your repo URL

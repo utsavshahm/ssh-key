@@ -41,7 +41,7 @@ def count() -> int:
     return len(load())
 
 def pick_menu() -> dict:
-    from lib.ui import header, error, console, blank
+    from sshkey.lib.ui import header, error, console, blank
     accounts = load()
     if not accounts:
         error("no accounts saved yet — run [accent]sshkey add-account[/] first")
