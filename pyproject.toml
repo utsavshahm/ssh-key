@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ssh-key"
+version = "0.1.0"
+description = "Manage multiple GitHub accounts from Git Bash — without the headache"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+dependencies = [
+    "requests>=2.31.0",
+    "rich>=13.0.0",
+]
+
+[project.scripts]
+sshkey = "sshkey.main:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["sshkey*"]
