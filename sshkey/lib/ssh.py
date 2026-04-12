@@ -1,6 +1,7 @@
 import subprocess
 from pathlib import Path
 from sshkey.lib.ui import info, success, warn, error, console
+import re
 
 SSH_CONFIG = Path.home() / ".ssh" / "config"
 
@@ -103,12 +104,16 @@ def add_key_to_agent(key_path: str):
 def rewrite_remote(alias: str):
     try:
         current = subprocess.check_output(
-            ["git", "remote", "get-url", "origin"], text=True, stderr=subprocess.DEVNULL
+            ["git", "remote", "get-url", "origin"],
+            text=True, stderr=subprocess.DEVNULL
         ).strip()
+
+        # normalize to plain user/repo regardless of format
         repo = current
-        for prefix in ["https://github.com/", "git@github.com:"]:
-            repo = repo.replace(prefix, "")
+        repo = re.sub(r"^https://github\.com/", "", repo)
+        repo = re.sub(r"^git@github[^:]*:", "", repo)  # handles github-personal, github-work, github.com
         repo = repo.removesuffix(".git")
+
         new_remote = f"git@github-{alias}:{repo}.git"
         subprocess.run(["git", "remote", "set-url", "origin", new_remote], check=True)
         success(f"remote updated to {new_remote}")
