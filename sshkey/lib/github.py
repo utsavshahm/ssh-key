@@ -27,7 +27,7 @@ def start_device_flow() -> str:
         DEVICE_CODE_URL,
         json={
             "client_id": CLIENT_ID,
-            "scope": "write:public_key read:user user:email",
+            "scope": "admin:public_key read:user user:email",
         },
         headers={"Accept": "application/json"},
     )

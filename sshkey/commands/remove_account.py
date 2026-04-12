@@ -4,7 +4,6 @@ from sshkey.lib import ui, accounts, github, ssh
 
 def run():
     ui.header("remove a GitHub account")
-    print("debug statement")
 
     account = accounts.pick_menu()
     alias = account["alias"]
