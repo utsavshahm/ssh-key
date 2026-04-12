@@ -64,14 +64,32 @@ def read_existing_blocks() -> list[dict]:
     return [b for b in blocks if "key_path" in b]
 
 
-def generate_key(email: str, key_path: str):
+def generate_key(email: str, key_path: str) -> bool:
+    """Generate SSH key. Returns True if generated, False if using existing."""
+    from sshkey.lib.ui import warn, console
+
+    path = Path(key_path)
+    if path.exists():
+        warn(f"key already exists at {key_path}")
+        choice = (
+            console.input("  use existing or overwrite? ([bold]u[/]/o): ")
+            .strip()
+            .lower()
+        )
+        if choice != "o":
+            return False
+        path.unlink()
+        Path(f"{key_path}.pub").unlink(missing_ok=True)
+
     result = subprocess.run(
         ["ssh-keygen", "-t", "ed25519", "-C", email, "-f", key_path, "-N", ""],
-        capture_output=True, text=True
+        capture_output=True,
+        text=True,
     )
     if result.returncode != 0:
         error(f"key generation failed: {result.stderr}")
     success(f"SSH key generated at {key_path}")
+    return True
 
 
 def add_key_to_agent(key_path: str):
@@ -85,8 +103,7 @@ def add_key_to_agent(key_path: str):
 def rewrite_remote(alias: str):
     try:
         current = subprocess.check_output(
-            ["git", "remote", "get-url", "origin"],
-            text=True, stderr=subprocess.DEVNULL
+            ["git", "remote", "get-url", "origin"], text=True, stderr=subprocess.DEVNULL
         ).strip()
         repo = current
         for prefix in ["https://github.com/", "git@github.com:"]:
@@ -96,7 +113,9 @@ def rewrite_remote(alias: str):
         subprocess.run(["git", "remote", "set-url", "origin", new_remote], check=True)
         success(f"remote updated to {new_remote}")
     except subprocess.CalledProcessError:
-        repo = console.input("  no remote found — enter your GitHub [bold]user/repo[/]: ").strip()
+        repo = console.input(
+            "  no remote found — enter your GitHub [bold]user/repo[/]: "
+        ).strip()
         repo = repo.removesuffix(".git")
         new_remote = f"git@github-{alias}:{repo}.git"
         subprocess.run(["git", "remote", "add", "origin", new_remote], check=True)
@@ -110,8 +129,5 @@ def set_git_identity(email: str, username: str):
 
 
 def is_git_repo() -> bool:
-    result = subprocess.run(
-        ["git", "rev-parse", "--git-dir"],
-        capture_output=True
-    )
+    result = subprocess.run(["git", "rev-parse", "--git-dir"], capture_output=True)
     return result.returncode == 0

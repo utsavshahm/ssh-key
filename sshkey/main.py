@@ -5,11 +5,12 @@ from sshkey.lib.ui import console
 HELP = """
 [bold cyan]sshkey[/] — multiple GitHub accounts, zero headache
 
-  [bold]sshkey add-account[/]    add a GitHub account (OAuth + auto key upload)
-  [bold]sshkey load-account[/]   import accounts from existing ~/.ssh/config
-  [bold]sshkey init[/]           link an account to this project
-  [bold]sshkey status[/]         show which account this project uses
-  [bold]sshkey accounts[/]       list all saved accounts
+  [bold]sshkey add-account[/]      add a GitHub account (OAuth + auto key upload)
+  [bold]sshkey remove-account[/]   remove a GitHub account (deletes key + GitHub entry)
+  [bold]sshkey load-account[/]     import accounts from existing ~/.ssh/config
+  [bold]sshkey init[/]             link an account to this project
+  [bold]sshkey status[/]           show which account this project uses
+  [bold]sshkey accounts[/]         list all saved accounts
 
   [cyan]workflow:[/]
     1. sshkey add-account    ← once per github account
@@ -24,6 +25,9 @@ def main():
 
     if cmd == "add-account":
         from sshkey.commands.add_account import run
+        run()
+    elif cmd == "remove-account":
+        from sshkey.commands.remove_account import run
         run()
     elif cmd == "load-account":
         from sshkey.commands.load_account import run
