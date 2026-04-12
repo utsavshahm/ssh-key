@@ -35,6 +35,10 @@ def run():
         # oauth to get user info
         ui.info("starting GitHub authorization to fetch your identity...")
         token    = github.start_device_flow()
+        if not token: 
+            ui.info("Authentication failed!")
+            return
+        
         user     = github.get_user(token)
         username = user["username"]
         email    = user["email"]
