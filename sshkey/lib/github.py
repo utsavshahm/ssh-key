@@ -51,7 +51,8 @@ def start_device_flow() -> str:
 
     # auto-open browser
     try:
-        subprocess.Popen(["explorer.exe", verification_uri])
+        subprocess.run(f"echo {verification_uri} | clip", shell=True)
+        info("URL copied to clipboard — paste it in your preferred browser")
     except Exception:
         pass  # silently skip if explorer.exe not available
 

@@ -16,7 +16,8 @@ def run():
 
     # key name only — always stored in ~/.ssh/
     default_name = f"id_ed25519_{alias}"
-    key_name = ui.console.input(f"  key name [[{default_name}]]: ").strip()
+    ui.console.print(f"  [muted]key will be saved in ~/.ssh/  e.g. id_ed25519_work, id_ed25519_personal[/]")
+    key_name = ui.console.input(f"  key name [{default_name}]: ").strip()
     key_name = key_name or default_name
     key_path = str(Path.home() / ".ssh" / key_name)
 
