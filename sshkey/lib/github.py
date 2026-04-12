@@ -6,7 +6,7 @@ from sshkey.lib.ui import info, success, warn, error, console, divider, blank
 # Register a free OAuth app at github.com/settings/developers
 # Enable Device Flow, set homepage to your repo URL
 # Paste your Client ID below
-CLIENT_ID = "YOUR_GITHUB_CLIENT_ID"
+CLIENT_ID = "Ov23liKC0NLSR9l2oBZP"
 
 DEVICE_CODE_URL = "https://github.com/login/device/code"
 TOKEN_URL = "https://github.com/login/oauth/access_token"
